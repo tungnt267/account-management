@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Product Management</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/style.css" />
+  </head>
+  <body>
+    <!-- Modal -->
+    <form>
+      <div
+        class="modal fade"
+        id="myModal"
+        role="dialog"
+        aria-labelledby="modelTitleId"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 class="modal-title text-center w-100" id="modalTitle">
+                Add New Account
+              </h3>
+              <button
+                type="button"
+                class="close"
+                id="btnClose"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="panel-body">
+                <form role="form">
+                  <div class="container">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        name="idProduct"
+                        id="idProduct"
+                        class="form-control input-sm"
+                        placeholder="ID"
+                        readonly
+                      />
+                      <span class="sp-message" id="idError"></span>
+                    </div>
+
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        name="account"
+                        id="account"
+                        class="form-control input-sm"
+                        placeholder="Account"
+                      />
+                      <span class="sp-message" id="nameError"></span>
+                    </div>
+
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control input-sm"
+                        id="password"
+                        name="password"
+                        placeholder="Password"
+                      />
+                      <span class="sp-message" id="desError"></span>
+                    </div>
+
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        name="desc"
+                        id="desc"
+                        class="form-control input-sm"
+                        placeholder="Description"
+                      />
+                      <span class="sp-message" id="priceError"></span>
+                    </div>
+
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        name="client"
+                        id="client"
+                        class="form-control input-sm"
+                        placeholder="Client"
+                      />
+                      <span class="sp-message" id="typeError"></span>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="modal-footer m-auto">
+              <div id="btnHandle"></div>
+              <button
+                type="button"
+                id="btnCancel"
+                class="btn btn-danger"
+                data-dismiss="modal"
+              >
+                Cancel
+              </button>
+              <button class="d-none" type="reset" id="btnReset"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- Show Data -->
+    <div id="showData" class="container show-data py-4">
+      <h1 class="text-center mb-4">Account Management</h1>
+      <form class="form-inline">
+        <div class="search">
+          <input
+            id="txtSearch"
+            type="text"
+            class="input-search"
+            placeholder="Search for anything "
+            oninput="findProduct()"
+          />
+          <i class="fa fa-search icon-search"></i>
+        </div>
+        <div class="per-page">
+          <select name="per-page" id="perPage" onchange="switchItemPage()">
+            <option>3</option>
+            <option selected>5</option>
+            <option>10</option>
+            <option>15</option>
+            <option>20</option>
+            <option>50</option>
+          </select>
+          <span>per page</span>
+        </div>
+        <!-- Button trigger modal -->
+        <button
+          type="button"
+          class="btn btn-primary btn-add-new ml-auto"
+          data-toggle="modal"
+          data-target="#myModal"
+          id="btnAddNew"
+        >
+          Add New Account
+        </button>
+      </form>
+
+      <table class="table text-center table-product" id="tblList">
+        <thead class="bg-dark text-white" id="theadList">
+          <tr>
+            <th>ID</th>
+            <th class="th-name">
+              <span class="mr-1">Account</span>
+              <i class="fa fa-arrow-up" id="sortNameUp"></i>
+              <i
+                class="fa fa-arrow-down"
+                id="sortNameDown"
+                style="display: none"
+              ></i>
+            </th>
+            <th>Password</th>
+            <th class="th-name">
+              <span class="mr-1">Description</span>
+              <i class="fa fa-arrow-up" id="sortPriceUp"></i>
+              <i
+                class="fa fa-arrow-down"
+                id="sortPriceDown"
+                style="display: none"
+              ></i>
+            </th>
+            <th class="product-type">Client</th>
+            <th><em class="fa fa-cog"></em></th>
+          </tr>
+        </thead>
+        <tbody id="tbodyList" class="product-list"></tbody>
+      </table>
+    </div>
+
+    <!-- Footer -->
+    <section class="footer pagination-section" id="pageSection">
+      <nav>
+        <ul class="pagination justify-content-center" id="ulPagination"></ul>
+      </nav>
+    </section>
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"
+      integrity="sha512-quHCp3WbBNkwLfYUMd+KwBAgpVukJu5MncuQaWXgCrfgcxCJAq/fo+oqrRKOj+UKEmyMCG3tb8RB63W+EmrOBg=="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script src="../models/Product.js"></script>
+    <script src="../controllers/Main.js"></script>
+  </body>
+</html>

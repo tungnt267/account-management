@@ -1,0 +1,60 @@
+.number-of-page {
+    border: 1px solid #dee2e6;
+    display: flex;
+    align-items: center;
+    padding: 0 20px 0 10px;
+}
+
+.per-page {
+    margin: auto;
+
+    select {
+        margin-right: 10px;
+        padding: 10px 20px;
+        border-radius: 3px;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        -ms-border-radius: 3px;
+        -o-border-radius: 3px;
+        outline: none;
+    }
+
+    span {
+        font-size: 20px;
+    }
+
+    @include respond-to('medium') {
+        margin-bottom: 10px;
+    }
+
+    @include respond-to('small') {
+        margin-left: 10px;
+
+        select {
+            padding: 10px;
+        }
+    }
+
+    @include respond-to('x-small') {
+        margin: auto;
+        margin-bottom: 10px;
+    }
+}
+
+.pagination-section {
+    .page-switch:hover {
+        color: #007bff;
+    }
+
+    .page-current {
+        margin-left: 1px;
+
+        &:focus {
+            box-shadow: none;
+        }
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+}
